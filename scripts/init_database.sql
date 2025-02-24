@@ -1,17 +1,29 @@
+/*===================================================================
+                   DATA WAREHOUSE INITIALIZATION SCRIPT          
+===================================================================*/
+
 /*
 =============================================================
-Create Database and Schemas
+SCRIPT PURPOSE
 =============================================================
-Script Purpose:
-    This script creates a new database named 'DataWarehouse' after checking if it already exists. 
-    If the database exists, it is dropped and recreated. Additionally, the script sets up three schemas 
-    within the database: 'bronze', 'silver', and 'gold'.
-	
-WARNING:
-    Running this script will drop the entire 'DataWarehouse' database if it exists. 
-    All data in the database will be permanently deleted. Proceed with caution 
-    and ensure you have proper backups before running this script.
+This script performs a full reset of the 'DataWarehouse' 
+environment by:
+1. Dropping existing database (if present) with active connections
+2. Creating a fresh database with UTF-8 collation
+3. Establishing standard medallion architecture schemas:
+   - bronze: Raw/landing zone data
+   - silver: Cleaned/validated data  
+   - gold: Business-ready aggregated data
+
+WARNING: THIS IS DESTRUCTIVE OPERATION
+=============================================================
+- Destroys all existing database objects and data permanently
+- Requires SYSTEM ADMIN privileges
+- Execute only in development/test environments
+- Ensure backups exist before running in production
+=============================================================
 */
+
 
 USE master;
 GO
